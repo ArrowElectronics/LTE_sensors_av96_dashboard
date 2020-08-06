@@ -1,10 +1,6 @@
 $(document).ready(function () {
   var socket;
 
-  $('#bs-tab2').click(function () {
-    myChartProxy.resize();
-  });
-
   $(window).on('resize', function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
       myChartTemperature.resize();
