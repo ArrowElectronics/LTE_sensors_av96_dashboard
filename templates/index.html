@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shiratech Avenger96</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-control" content="no-cache, no-store" />
+    <!-- ICON -->
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/material-icons.css" />
+    <link rel="stylesheet" href="/static/css/materialize.css" />
+    <!-- JS -->
+    <script
+      type="text/javascript"
+      src="/static/js/jquery-2.1.1.min.js"
+    ></script>
+    <script type="text/javascript" src="/static/js/materialize.js"></script>
+    <script type="text/javascript" src="/static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/js/sensorData.js"></script>
+    <script type="text/javascript" src="/static/js/gyrData.js"></script>
+    <script type="text/javascript" src="/static/js/three.min.js"></script>
+  </head>
+  <body>
+    <!-- Big App Cointainer -->
+    <div id="banner" class="banner">
+      <div id="banner-text" class="content-margin-left">
+        <h4 style="text-transform: uppercase;">
+          Avenger96 & LTE Sensor Mezzanine
+        </h4>
+      </div>
+      <!-- <div id="banner-logo">
+        <img
+          id="logo"
+          width="165px"
+          height="65px"
+          src="/static/img/arrow_white.png"
+        />
+      </div> -->
+    </div>
+    <div id="big-app-container">
+      <!-- App Container Under Banner -->
+      <div id="app-container">
+        <!-- Tabs -->
+        <!-- <div class="col s12">
+          <ul class="tabs" id="tabs-swipe-demo">
+            <li class="tab col s3">
+              <a class="active" data-toggle="tab" href="#sensors"
+                >Environment Sensors</a
+              >
+            </li>
+            <li class="tab col s3">
+              <a data-toggle="tab" href="#proximidity" id="bs-tab2"
+                >Proximidity Sensor</a
+              >
+            </li>
+          </ul>
+        </div> -->
+        <!-- App Content Under Tabs -->
+        <div id="app-content">
+          <!-- Tab Sensors -->
+          <div id="sensors" class="col s12">
+            <div class="row firstRow">
+              <!-- ToF -->
+              <div class="col s12 m12 l6 xl6 borderTest left">
+                <div class="metric-select-title">
+                  <div class="section-banner">Time of Flight</div>
+                </div>
+                <div
+                  id="tof-container"
+                  style="height: 250px; width: 100%;"
+                ></div>
+              </div>
+              <div class="col s12 m12 l6 xl6 right">
+                <!-- Gyr -->
+                <div class="col s6 m6 l6 xl6 borderTest left">
+                  <div id="tof-container">
+                    <div class="metric-select-title">
+                      <div class="section-banner">Gyroscope</div>
+                    </div>
+                    <table class="highlight">
+                      <thead>
+                        <tr>
+                          <th id="gyr_axis-x"></th>
+                          <th id="gyr_axis-y"></th>
+                          <th id="gyr_axis-z"></th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div style="height: 192px; width: 100%;">
+                      <div id="canvastest" style="margin: auto;"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Temperature -->
+                <div class="col s6 m6 l6 xl6 offset-s6 borderTest right">
+                  <div class="metric-select-title">
+                    <div class="section-banner">Temperature</div>
+                  </div>
+                  <div id="temperature-container" style="height: 250px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Acc -->
+              <div class="col s12 m12 l6 xl6 borderTest lastDiv left">
+                <div class="metric-select-title">
+                  <div class="section-banner">Accelarometer</div>
+                </div>
+                <div
+                  id="acc-container"
+                  style="height: 250px; width: 100%;"
+                ></div>
+              </div>
+              <!-- Mag -->
+              <div class="col s12 m12 l6 xl6 borderTest lastDiv right">
+                <div class="metric-select-title">
+                  <div class="section-banner">Magnetometer</div>
+                </div>
+                <div
+                  id="mag-container"
+                  style="height: 250px; width: 100%;"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab Proximidity -->
+          <!-- Proxy -->
+          <div class="row" style="border-top: 0;">
+            <div id="proximidity" class="col s12 borderTest">
+              <div class="metric-select-title">
+                <div class="section-banner">Proximidity</div>
+              </div>
+              <div>
+                <table class="highlight">
+                  <thead>
+                    <tr>
+                      <th>Axis X</th>
+                      <th>Axis X1</th>
+                      <th>Axis X2</th>
+                      <th>Axis Y</th>
+                      <th>Axis Y1</th>
+                      <th>Axis Y2</th>
+                      <th>Axis FI_X</th>
+                      <th>Axis FI_Y</th>
+                      <th>INT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id="proxy-x"></td>
+                      <td id="proxy-x1"></td>
+                      <td id="proxy-x2"></td>
+                      <td id="proxy-y"></td>
+                      <td id="proxy-y1"></td>
+                      <td id="proxy-y2"></td>
+                      <td id="proxy-fix"></td>
+                      <td id="proxy-fiy"></td>
+                      <td id="proxy-int"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <br />
+              <div>
+                <div
+                  id="proxy-container"
+                  style="height: 400px; width: 100%;"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/socket.io.min.js"></script>
+  </body>
+</html>
