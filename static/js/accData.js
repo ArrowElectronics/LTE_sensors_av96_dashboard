@@ -44,20 +44,20 @@ $(document).ready(function () {
     socket.on('message_from_server', function (data) {
       var text = data;
       var dataJson = JSON.parse(text);
-      gyr_y = dataJson.gyr.y;
-      gyr_x = dataJson.gyr.x;
-      gyr_z = dataJson.gyr.z;
-      document.getElementById('gyr_axis-x').innerHTML = 'Axis X' + ' ' + gyr_x;
-      document.getElementById('gyr_axis-y').innerHTML = 'Axis Y' + ' ' + gyr_y;
-      document.getElementById('gyr_axis-z').innerHTML = 'Axis Z' + ' ' + gyr_z;
+      acc_y = dataJson.acc.y;
+      acc_x = dataJson.acc.x;
+      acc_z = dataJson.acc.z;
+      document.getElementById('acc_axis-x').innerHTML = 'Axis X' + ' ' + acc_x;
+      document.getElementById('acc_axis-y').innerHTML = 'Axis Y' + ' ' + acc_y;
+      document.getElementById('acc_axis-z').innerHTML = 'Axis Z' + ' ' + acc_z;
 
-      gyr_x_val = gyr_x / 1000;
-      gyr_y_val = gyr_y / 1000;
-      gyr_z_val = gyr_z / 1000;
+      acc_x_val = acc_x / 2000;
+      acc_y_val = acc_y / 2000;
+      acc_z_val = acc_z / 2000;
 
-      mesh.rotation.y += gyr_y_val / 1000;
-      mesh.rotation.x += gyr_x_val / 1000;
-      mesh.rotation.z += gyr_z_val / 1000;
+      mesh.rotation.y += acc_y_val / 2000;
+      mesh.rotation.x += acc_x_val / 2000;
+      mesh.rotation.z += acc_z_val / 2000;
 
       renderer.render(scene, camera);
     });

@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/static/js/materialize.js"></script>
     <script type="text/javascript" src="/static/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/js/sensorData.js"></script>
-    <script type="text/javascript" src="/static/js/gyrData.js"></script>
+    <script type="text/javascript" src="/static/js/accData.js"></script>
     <script type="text/javascript" src="/static/js/three.min.js"></script>
   </head>
   <body>
@@ -73,18 +73,18 @@
                 ></div>
               </div>
               <div class="col s12 m12 l6 xl6 right">
-                <!-- Gyr -->
+                <!-- Accelarometer -->
                 <div class="col s6 m6 l6 xl6 borderTest left">
-                  <div id="tof-container">
+                  <div id="acc-container">
                     <div class="metric-select-title">
-                      <div class="section-banner">Gyroscope</div>
+                      <div class="section-banner">Accelarometer</div>
                     </div>
                     <table class="highlight">
                       <thead>
                         <tr>
-                          <th id="gyr_axis-x"></th>
-                          <th id="gyr_axis-y"></th>
-                          <th id="gyr_axis-z"></th>
+                          <th id="acc_axis-x"></th>
+                          <th id="acc_axis-y"></th>
+                          <th id="acc_axis-z"></th>
                         </tr>
                       </thead>
                     </table>
@@ -103,13 +103,13 @@
               </div>
             </div>
             <div class="row">
-              <!-- Acc -->
+              <!-- Gyr -->
               <div class="col s12 m12 l6 xl6 borderTest lastDiv left">
                 <div class="metric-select-title">
-                  <div class="section-banner">Accelarometer</div>
+                  <div class="section-banner">Gyroscope</div>
                 </div>
                 <div
-                  id="acc-container"
+                  id="gyr-container"
                   style="height: 250px; width: 100%;"
                 ></div>
               </div>

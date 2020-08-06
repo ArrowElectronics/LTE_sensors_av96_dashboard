@@ -243,8 +243,8 @@ $(document).ready(function () {
     });
   });
 
-  // Acc
-  var myChartAcc = echarts.init(document.getElementById('acc-container'));
+  // Gyr
+  var myChartGyr = echarts.init(document.getElementById('gyr-container'));
 
   option1 = {
     legend: {
@@ -364,33 +364,33 @@ $(document).ready(function () {
       },
     ],
   };
-  myChartAcc.setOption(option1);
+  myChartGyr.setOption(option1);
 
   socket.on('message_from_server', function (data) {
     var text = data;
     var dataJson = JSON.parse(text);
-    acc_x_val = dataJson.acc.x;
-    acc_y_val = dataJson.acc.y;
-    acc_z_val = dataJson.acc.z;
+    gyr_x_val = dataJson.gyr.x;
+    gyr_y_val = dataJson.gyr.y;
+    gyr_z_val = dataJson.gyr.z;
 
-    var acc_x = option1.series[0].data;
-    acc_x.shift();
-    acc_x.push(acc_x_val);
+    var gyr_x = option1.series[0].data;
+    gyr_x.shift();
+    gyr_x.push(gyr_x_val);
 
-    var acc_y = option1.series[1].data;
-    acc_y.shift();
-    acc_y.push(acc_y_val);
+    var gyr_y = option1.series[1].data;
+    gyr_y.shift();
+    gyr_y.push(gyr_y_val);
 
-    var acc_z = option1.series[2].data;
-    acc_z.shift();
-    acc_z.push(acc_z_val);
+    var gyr_z = option1.series[2].data;
+    gyr_z.shift();
+    gyr_z.push(gyr_z_val);
   });
   setInterval(function () {
     var axisData = new Date().toLocaleTimeString();
     option1.xAxis.data.shift();
     option1.xAxis.data.push(axisData);
 
-    myChartAcc.setOption(option1);
+    myChartGyr.setOption(option1);
   }, 2000);
 
   // Mag
