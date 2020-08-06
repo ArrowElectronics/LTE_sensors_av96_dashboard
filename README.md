@@ -8,7 +8,7 @@ Run in Terminal/Command Prompt:
 apt-get update
 apt-get install python3-pip python3-flask
 apt-get instal git
-pip3 install Flask-SocketIO
+pip3 install Flask-SocketIO pyserial
 git clone https://gitlab.com/arrowelectronics/96boards/LTE_sensors_av96_dasboard.git
 cd LTE_sensors_av96_dasboard
 git checkout develop

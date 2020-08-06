@@ -1,6 +1,10 @@
 $(document).ready(function () {
   var socket;
 
+  $('#bs-tab2').click(function () {
+    myChartProxy.resize();
+  });
+
   $(window).on('resize', function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
       myChartTemperature.resize();
@@ -617,6 +621,10 @@ $(document).ready(function () {
   };
   myChartProxy.setOption(option6);
 
+  setInterval(() => {
+    myChartProxy.resize();
+  }, 50);
+
   socket.on('message_from_server', function (data) {
     var text = data;
     var dataJson = JSON.parse(text);
@@ -645,6 +653,7 @@ $(document).ready(function () {
     document.getElementById('proxy-fix').innerHTML = proxy_fix;
     document.getElementById('proxy-fiy').innerHTML = proxy_fiy;
     document.getElementById('proxy-int').innerHTML = proxy_int;
+    // myChartProxy.resize();
   });
   setInterval(function () {
     var axisData = new Date().toLocaleTimeString();

@@ -220,3 +220,7 @@ h4 {
 .carousel .carousel-item {
   width: 100% !important;
 }
+
+table.highlight > tbody > tr:hover {
+  background-color: #1e2130 !important;
+}
