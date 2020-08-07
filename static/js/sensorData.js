@@ -5,8 +5,8 @@ $(document).ready(function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
       myChartTemperature.resize();
     }
-    if (myChartAcc != null && myChartAcc != undefined) {
-      myChartAcc.resize();
+    if (myChartGyr != null && myChartGyr != undefined) {
+      myChartGyr.resize();
     }
     if (myChartTof != null && myChartTof != undefined) {
       myChartTof.resize();
@@ -619,7 +619,7 @@ $(document).ready(function () {
 
   setInterval(() => {
     myChartProxy.resize();
-  }, 50);
+  }, 100);
 
   socket.on('message_from_server', function (data) {
     var text = data;

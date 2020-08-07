@@ -4,7 +4,6 @@ $(document).ready(function () {
   socket = io.connect({ forceNew: true });
 
   // Three.js ray.intersects with offset canvas
-
   var container,
     camera,
     scene,
@@ -51,13 +50,13 @@ $(document).ready(function () {
       document.getElementById('acc_axis-y').innerHTML = 'Axis Y' + ' ' + acc_y;
       document.getElementById('acc_axis-z').innerHTML = 'Axis Z' + ' ' + acc_z;
 
-      acc_x_val = acc_x / 2000;
-      acc_y_val = acc_y / 2000;
-      acc_z_val = acc_z / 2000;
+      acc_x_val = acc_x / 1000;
+      acc_y_val = acc_y / 1000;
+      acc_z_val = acc_z / 1000;
 
-      mesh.rotation.y += acc_y_val / 2000;
-      mesh.rotation.x += acc_x_val / 2000;
-      mesh.rotation.z += acc_z_val / 2000;
+      mesh.rotation.y = acc_y_val;
+      mesh.rotation.x = acc_x_val;
+      mesh.rotation.z = acc_z_val;
 
       renderer.render(scene, camera);
     });
