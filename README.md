@@ -2,7 +2,7 @@
 
 Demo for LTE Sensor Mezannine running in Flask Server hosted in Avenger96 board
 
-![Alt-Text](/images/avenger_UI.png.PNG)
+![Alt-Text](/images/avenger_UI.png)
 
 ## Requirements
 
