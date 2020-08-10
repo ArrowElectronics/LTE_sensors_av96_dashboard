@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/static/js/materialize.js"></script>
     <script type="text/javascript" src="/static/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/js/sensorData.js"></script>
-    <script type="text/javascript" src="/static/js/accData.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/accData.js"></script> -->
     <script type="text/javascript" src="/static/js/three.min.js"></script>
   </head>
   <body>
@@ -51,8 +51,8 @@
               >
             </li>
             <li class="tab col s3">
-              <a data-toggle="tab" href="#proximidity" id="bs-tab2"
-                >Proximidity Sensor</a
+              <a data-toggle="tab" href="#proximity" id="bs-tab2"
+                >Proximity Sensor</a
               >
             </li>
           </ul>
@@ -73,11 +73,11 @@
                 ></div>
               </div>
               <div class="col s12 m12 l6 xl6 right">
-                <!-- Accelarometer -->
+                <!-- Accelerometer -->
                 <div class="col s6 m6 l6 xl6 borderTest left">
                   <div id="acc-container">
                     <div class="metric-select-title">
-                      <div class="section-banner">Accelarometer</div>
+                      <div class="section-banner">Accelerometer</div>
                     </div>
                     <table class="highlight">
                       <thead>
@@ -125,12 +125,12 @@
               </div>
             </div>
           </div>
-          <!-- Tab Proximidity -->
+          <!-- Tab Proximity -->
           <!-- Proxy -->
           <div class="row" style="border-top: 0;">
-            <div id="proximidity" class="col s12 borderTest">
+            <div id="proximity" class="col s12 borderTest">
               <div class="metric-select-title">
-                <div class="section-banner">Proximidity</div>
+                <div class="section-banner">Proximity</div>
               </div>
               <div>
                 <table class="highlight">

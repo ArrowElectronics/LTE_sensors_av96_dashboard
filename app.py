@@ -5,11 +5,16 @@ import os
 import threading
 from flask_socketio import SocketIO, emit
 import json
+import logging
+
 
 ser = serial.Serial('/dev/ttyRPMSG0', 115200)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app, logging=False, engineio_logger=False)
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 
 def message_recieved(data):
@@ -23,7 +28,7 @@ def update_output(ser):
         my_json = json.loads(sensor_data)
         json_format = json.dumps(my_json, indent=4, sort_keys=True)
         message_recieved(json_format)
-        # sleep(.5)
+        sleep(.2)
 
 
 @ app.route('/')
@@ -45,7 +50,7 @@ if __name__ == '__main__':
     thread = threading.Thread(target=update_output, args=(ser,))
     thread.setDaemon(True)
     thread.start()
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=False, log_output=False)
 
 if KeyboardInterrupt:
     print("exiting")

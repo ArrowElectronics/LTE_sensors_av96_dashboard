@@ -1,5 +1,7 @@
 $(document).ready(function () {
   var socket;
+  // The http vs. https is important. Use http for localhost!
+  socket = io.connect({ forceNew: true });
 
   $(window).on('resize', function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
@@ -18,8 +20,6 @@ $(document).ready(function () {
       myChartProxy.resize();
     }
   });
-  // The http vs. https is important. Use http for localhost!
-  socket = io.connect({ forceNew: true });
 
   //   ToF
   var myChartTof = echarts.init(document.getElementById('tof-container'));
@@ -45,7 +45,7 @@ $(document).ready(function () {
     },
     xAxis: {
       type: 'category',
-      boundaryGap: true,
+      boundaryGap: false,
       axisLine: {
         lineStyle: {
           color: 'darkgrey',
@@ -65,8 +65,8 @@ $(document).ready(function () {
     yAxis: {
       type: 'value',
       scale: true,
-      // max: 100,
-      // min: 0,
+      max: 8190,
+      min: 0,
       boundaryGap: [0.2, 0.2],
       axisLine: {
         lineStyle: {
@@ -79,8 +79,14 @@ $(document).ready(function () {
     },
     series: {
       name: 'ToF',
-      type: 'bar',
-      barWidth: '40%',
+      type: 'line',
+      lineStyle: {
+        color: '#009090',
+      },
+      itemStyle: {
+        color: '#009090',
+        opacity: 0,
+      },
       showSymbol: false,
       data: (function () {
         var res = [];
@@ -93,23 +99,22 @@ $(document).ready(function () {
       })(),
     },
   };
-  myChartTof.setOption(option5);
 
   socket.on('message_from_server', function (data) {
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+
     var text = data;
     var dataJson = JSON.parse(text);
     var tof_val = dataJson.tof;
     var tof_data = option5.series.data;
     tof_data.shift();
     tof_data.push(tof_val);
-  });
-  setInterval(function () {
-    var axisData = new Date().toLocaleTimeString();
+
     option5.xAxis.data.shift();
     option5.xAxis.data.push(axisData);
 
     myChartTof.setOption(option5);
-  }, 2000);
+  });
 
   // Temperature
   var myChartTemperature = echarts.init(
@@ -200,7 +205,6 @@ $(document).ready(function () {
     var text = data;
     var dataJson = JSON.parse(text);
     temp_val = dataJson.temp;
-    // console.log(temp_val);
 
     myChartTemperature.setOption({
       title: { text: temp_val + '°C' },
@@ -364,9 +368,10 @@ $(document).ready(function () {
       },
     ],
   };
-  myChartGyr.setOption(option1);
 
   socket.on('message_from_server', function (data) {
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+
     var text = data;
     var dataJson = JSON.parse(text);
     gyr_x_val = dataJson.gyr.x;
@@ -384,14 +389,12 @@ $(document).ready(function () {
     var gyr_z = option1.series[2].data;
     gyr_z.shift();
     gyr_z.push(gyr_z_val);
-  });
-  setInterval(function () {
-    var axisData = new Date().toLocaleTimeString();
+
     option1.xAxis.data.shift();
     option1.xAxis.data.push(axisData);
 
     myChartGyr.setOption(option1);
-  }, 2000);
+  });
 
   // Mag
   var myChartMag = echarts.init(document.getElementById('mag-container'));
@@ -517,6 +520,8 @@ $(document).ready(function () {
   myChartMag.setOption(option4);
 
   socket.on('message_from_server', function (data) {
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+
     var text = data;
     var dataJson = JSON.parse(text);
     mag_x_val = dataJson.mag.x;
@@ -534,14 +539,12 @@ $(document).ready(function () {
     var data1 = option4.series[2].data;
     data1.shift();
     data1.push(mag_z_val);
-  });
-  setInterval(function () {
-    var axisData = new Date().toLocaleTimeString();
+
     option4.xAxis.data.shift();
     option4.xAxis.data.push(axisData);
 
     myChartMag.setOption(option4);
-  }, 2000);
+  });
 
   //   Proxy
   var myChartProxy = echarts.init(document.getElementById('proxy-container'));
@@ -549,7 +552,7 @@ $(document).ready(function () {
   option6 = {
     color: ['#009090'],
     legend: {
-      data: ['i'],
+      data: ['Intensity'],
       icon: 'circle',
       // set up the text in red
       textStyle: {
@@ -567,7 +570,7 @@ $(document).ready(function () {
     },
     xAxis: {
       type: 'category',
-      boundaryGap: true,
+      boundaryGap: false,
       axisLine: {
         lineStyle: {
           color: 'darkgrey',
@@ -587,8 +590,9 @@ $(document).ready(function () {
     yAxis: {
       type: 'value',
       scale: true,
-      // max: 100,
-      // min: 0,
+      max: 265000,
+      min: 195000,
+      splitNumber: 2,
       boundaryGap: [0.2, 0.2],
       axisLine: {
         lineStyle: {
@@ -600,9 +604,15 @@ $(document).ready(function () {
       },
     },
     series: {
-      name: 'i',
-      type: 'bar',
-      barWidth: '40%',
+      name: 'Intensity',
+      type: 'line',
+      lineStyle: {
+        color: '#009090',
+      },
+      itemStyle: {
+        color: '#009090',
+        opacity: 0,
+      },
       showSymbol: false,
       data: (function () {
         var res = [];
@@ -617,11 +627,9 @@ $(document).ready(function () {
   };
   myChartProxy.setOption(option6);
 
-  setInterval(() => {
-    myChartProxy.resize();
-  }, 100);
-
   socket.on('message_from_server', function (data) {
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+
     var text = data;
     var dataJson = JSON.parse(text);
     // table
@@ -634,11 +642,10 @@ $(document).ready(function () {
     var proxy_fix = dataJson.proxy.fi_x;
     var proxy_fiy = dataJson.proxy.fi_y;
     var proxy_int = dataJson.proxy.int;
-    //
-    var proxy_i = dataJson.proxy.i;
+
     var proxy_data = option6.series.data;
     proxy_data.shift();
-    proxy_data.push(proxy_i);
+    proxy_data.push(proxy_int);
 
     document.getElementById('proxy-x').innerHTML = proxy_x;
     document.getElementById('proxy-x1').innerHTML = proxy_x1;
@@ -649,13 +656,74 @@ $(document).ready(function () {
     document.getElementById('proxy-fix').innerHTML = proxy_fix;
     document.getElementById('proxy-fiy').innerHTML = proxy_fiy;
     document.getElementById('proxy-int').innerHTML = proxy_int;
-    // myChartProxy.resize();
-  });
-  setInterval(function () {
-    var axisData = new Date().toLocaleTimeString();
     option6.xAxis.data.shift();
     option6.xAxis.data.push(axisData);
 
     myChartProxy.setOption(option6);
-  }, 2000);
+    myChartProxy.resize();
+  });
+
+  // Acc
+  // Three.js ray.intersects with offset canvas
+  var container,
+    camera,
+    scene,
+    renderer,
+    mesh,
+    objects = [],
+    CANVAS_WIDTH = 180,
+    CANVAS_HEIGHT = 180;
+
+  container = document.getElementById('canvastest');
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setClearColor(0x161a28, 1);
+  renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+  container.appendChild(renderer.domElement);
+
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(
+    50,
+    CANVAS_WIDTH / CANVAS_HEIGHT,
+    1,
+    1000
+  );
+  camera.position.y = 150;
+  camera.position.z = 500;
+  camera.lookAt(scene.position);
+
+  mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(200, 200, 200),
+    new THREE.MeshNormalMaterial()
+  );
+  scene.add(mesh);
+  objects.push(mesh);
+
+  function render() {
+    socket.on('message_from_server', function (data) {
+      var text = data;
+      var dataJson = JSON.parse(text);
+      acc_y = dataJson.acc.y;
+      acc_x = dataJson.acc.x;
+      acc_z = dataJson.acc.z;
+      document.getElementById('acc_axis-x').innerHTML =
+        'Axis X:' + ' ' + acc_x;
+      document.getElementById('acc_axis-y').innerHTML =
+        'Axis Y:' + ' ' + acc_y;
+      document.getElementById('acc_axis-z').innerHTML =
+        'Axis Z:' + ' ' + acc_z;
+
+      acc_x_val = acc_x / 1000;
+      acc_y_val = acc_y / 1000;
+      acc_z_val = acc_z / 1000;
+
+      mesh.rotation.y = acc_y_val;
+      mesh.rotation.x = acc_x_val;
+      mesh.rotation.z = acc_z_val;
+
+      renderer.render(scene, camera);
+    });
+  }
+  render();
 });
