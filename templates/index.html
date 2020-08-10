@@ -51,7 +51,7 @@
             </li>
             <li class="tab col s3">
               <a data-toggle="tab" href="#proximity" id="bs-tab2"
-                >Proximity Sensor</a
+                >Magnetometer & Proximity</a
               >
             </li>
           </ul>
@@ -112,8 +112,23 @@
                   style="height: 250px; width: 100%;"
                 ></div>
               </div>
-              <!-- Mag -->
+              <!-- Temp Chart -->
               <div class="col s12 m12 l6 xl6 borderTest lastDiv right">
+                <div class="metric-select-title">
+                  <div class="section-banner">Temperature Chart</div>
+                </div>
+                <div
+                  id="temp-chart-container"
+                  style="height: 250px; width: 100%;"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab Proximity -->
+          <div id="proximity" class="col s12">
+            <!-- Mag -->
+            <div class="row borderTest" style="border-top: 0;">
+              <div class="col s12 borderTest">
                 <div class="metric-select-title">
                   <div class="section-banner">Magnetometer</div>
                 </div>
@@ -123,11 +138,8 @@
                 ></div>
               </div>
             </div>
-          </div>
-          <!-- Tab Proximity -->
-          <!-- Proxy -->
-          <div class="row" style="border-top: 0;">
-            <div id="proximity" class="col s12 borderTest">
+            <!-- Proxy -->
+            <div class="row borderTest" style="border-top: 0;">
               <div class="metric-select-title">
                 <div class="section-banner">Proximity</div>
               </div>
@@ -165,7 +177,7 @@
               <div>
                 <div
                   id="proxy-container"
-                  style="height: 400px; width: 100%;"
+                  style="height: 300px; width: 100%;"
                 ></div>
               </div>
             </div>

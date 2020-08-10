@@ -7,6 +7,9 @@ $(document).ready(function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
       myChartTemperature.resize();
     }
+    if (myChartTempChart != null && myChartTempChart != undefined) {
+      myChartTempChart.resize();
+    }
     if (myChartGyr != null && myChartGyr != undefined) {
       myChartGyr.resize();
     }
@@ -114,6 +117,105 @@ $(document).ready(function () {
     option5.xAxis.data.push(axisData);
 
     myChartTof.setOption(option5);
+    myChartTof.resize();
+  });
+
+  // Temperature Chart
+  var myChartTempChart = echarts.init(
+    document.getElementById('temp-chart-container')
+  );
+
+  option8 = {
+    color: ['#009090'],
+    legend: {
+      data: ['Temperature'],
+      icon: 'circle',
+      // set up the text in red
+      textStyle: {
+        color: 'white',
+      },
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#283b56',
+        },
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      axisLine: {
+        lineStyle: {
+          color: 'darkgrey',
+        },
+      },
+      data: (function () {
+        var now = new Date();
+        var res = [];
+        var len = 10;
+        while (len--) {
+          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
+          now = new Date(now - 2000);
+        }
+        return res;
+      })(),
+    },
+    yAxis: {
+      type: 'value',
+      scale: true,
+      max: 100,
+      min: 0,
+      boundaryGap: [0.2, 0.2],
+      axisLine: {
+        lineStyle: {
+          color: 'darkgrey',
+        },
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    series: {
+      name: 'Temperature',
+      type: 'line',
+      lineStyle: {
+        color: '#009090',
+      },
+      itemStyle: {
+        color: '#009090',
+        opacity: 0,
+      },
+      showSymbol: false,
+      data: (function () {
+        var res = [];
+        var len = 0;
+        while (len < 10) {
+          res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+          len++;
+        }
+        return res;
+      })(),
+    },
+  };
+
+  socket.on('message_from_server', function (data) {
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+
+    var text = data;
+    var dataJson = JSON.parse(text);
+    var tempchart_val = dataJson.temp;
+    var tempchart_data = option8.series.data;
+    tempchart_data.shift();
+    tempchart_data.push(tempchart_val);
+
+    option8.xAxis.data.shift();
+    option8.xAxis.data.push(axisData);
+
+    myChartTempChart.setOption(option8);
+    myChartTempChart.resize();
   });
 
   // Temperature
@@ -394,6 +496,7 @@ $(document).ready(function () {
     option1.xAxis.data.push(axisData);
 
     myChartGyr.setOption(option1);
+    myChartGyr.resize();
   });
 
   // Mag
@@ -517,7 +620,6 @@ $(document).ready(function () {
       },
     ],
   };
-  myChartMag.setOption(option4);
 
   socket.on('message_from_server', function (data) {
     var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
@@ -544,6 +646,7 @@ $(document).ready(function () {
     option4.xAxis.data.push(axisData);
 
     myChartMag.setOption(option4);
+    myChartMag.resize();
   });
 
   //   Proxy
@@ -625,7 +728,6 @@ $(document).ready(function () {
       })(),
     },
   };
-  myChartProxy.setOption(option6);
 
   socket.on('message_from_server', function (data) {
     var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
