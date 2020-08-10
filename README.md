@@ -1,5 +1,9 @@
 # LTE Sensors Av96 Dasboard
 
+Demo for LTE Sensor Mezannine running in Flask Server hosted in Avenger96 board
+
+![Alt-Text](/images/avenger_UI.png.PNG)
+
 ## Requirements
 
 Run in Terminal/Command Prompt:
