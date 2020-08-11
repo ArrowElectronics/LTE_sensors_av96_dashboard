@@ -45,6 +45,7 @@ if connect via same ethernet find the IP Address of the Avenger96 board and add 
 ## Server:
 
 Python
+
 Flask
 Flask-SocketIO
 pyserial
