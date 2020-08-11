@@ -761,7 +761,7 @@ $(document).ready(function () {
         var res = [];
         var len = 0;
         while (len < 100) {
-          res.push((Math.random(1) * 250000).toFixed(1) - 0);
+          res.push((Math.random() * (265000 - 125000) + 125000).toFixed(1));
           len++;
         }
         return res;
