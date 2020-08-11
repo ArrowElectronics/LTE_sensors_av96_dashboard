@@ -41,3 +41,19 @@ Open http://http://192.168.7.1:5000// in your browser, you will see a live-updat
 if connect via same ethernet find the IP Address of the Avenger96 board and add IP_Address:5000 port 5000 in the browser
 
 ## Built With
+
+## Server:
+
+Python
+Flask
+Flask-SocketIO
+pyserial
+threading
+
+## Client:
+
+JavaScript
+echarts
+materialize
+socketio
+
