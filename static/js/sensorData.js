@@ -3,6 +3,7 @@ $(document).ready(function () {
   // The http vs. https is important. Use http for localhost!
   socket = io.connect({ forceNew: true });
 
+  // ############### Resize Charts ###############
   $(window).on('resize', function () {
     if (myChartTemperature != null && myChartTemperature != undefined) {
       myChartTemperature.resize();
@@ -24,7 +25,7 @@ $(document).ready(function () {
     }
   });
 
-  //   ToF
+  // ############### ToF ###############
   var myChartTof = echarts.init(document.getElementById('tof-container'));
 
   option5 = {
@@ -35,7 +36,6 @@ $(document).ready(function () {
     legend: {
       data: ['ToF (mm)'],
       icon: 'circle',
-      // set up the text in red
       textStyle: {
         color: 'white',
       },
@@ -126,7 +126,7 @@ $(document).ready(function () {
     myChartTof.resize();
   });
 
-  // Temperature Chart
+  // ############### Temperature Chart ###############
   var myChartTempChart = echarts.init(
     document.getElementById('temp-chart-container')
   );
@@ -139,7 +139,6 @@ $(document).ready(function () {
     legend: {
       data: ['Temperature °C'],
       icon: 'circle',
-      // set up the text in red
       textStyle: {
         color: 'white',
       },
@@ -230,7 +229,7 @@ $(document).ready(function () {
     myChartTempChart.resize();
   });
 
-  // Temperature
+  // ############### Temperature ###############
   var myChartTemperature = echarts.init(
     document.getElementById('temperature-container')
   );
@@ -288,7 +287,6 @@ $(document).ready(function () {
           {
             value: 0,
             symbol: symbols[0],
-            // symbolSize: [55, 170],
             symbolSize: [45, 150],
           },
         ],
@@ -306,7 +304,6 @@ $(document).ready(function () {
           {
             value: 1,
             symbol: symbols[0],
-            // symbolSize: [55, 170],
             symbolSize: [45, 150],
           },
         ],
@@ -334,7 +331,6 @@ $(document).ready(function () {
             {
               value: temp_val,
               symbol: symbols[0],
-              //   symbolSize: [55, 170],
               symbolSize: [45, 150],
             },
           ],
@@ -352,7 +348,6 @@ $(document).ready(function () {
             {
               value: 1,
               symbol: symbols[0],
-              //   symbolSize: [55, 170],
               symbolSize: [45, 150],
             },
           ],
@@ -362,7 +357,7 @@ $(document).ready(function () {
     myChartTemperature.resize();
   });
 
-  // Gyr
+  // ############### Gyr ###############
   var myChartGyr = echarts.init(document.getElementById('gyr-container'));
 
   option1 = {
@@ -372,7 +367,6 @@ $(document).ready(function () {
     legend: {
       data: ['Axis X', 'Axis Y', 'Axis Z'],
       icon: 'circle',
-      // set up the text in red
       textStyle: {
         color: 'white',
       },
@@ -525,7 +519,7 @@ $(document).ready(function () {
     myChartGyr.resize();
   });
 
-  // Mag
+  // ############### Mag ###############
   var myChartMag = echarts.init(document.getElementById('mag-container'));
 
   option4 = {
@@ -535,7 +529,6 @@ $(document).ready(function () {
     legend: {
       data: ['Axis X', 'Axis Y', 'Axis Z'],
       icon: 'circle',
-      // set up the text in red
       textStyle: {
         color: 'white',
       },
@@ -686,7 +679,7 @@ $(document).ready(function () {
     myChartMag.resize();
   });
 
-  //   Proxy
+  // ############### Proxy ###############
   var myChartProxy = echarts.init(document.getElementById('proxy-container'));
 
   option6 = {
@@ -697,7 +690,6 @@ $(document).ready(function () {
     legend: {
       data: ['Intensity'],
       icon: 'circle',
-      // set up the text in red
       textStyle: {
         color: 'white',
       },
@@ -770,11 +762,9 @@ $(document).ready(function () {
   };
 
   socket.on('message_from_server', function (data) {
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
-
+    // ############### Table ###############
     var text = data;
     var dataJson = JSON.parse(text);
-    // table
     var proxy_x = dataJson.proxy.x;
     var proxy_x1 = dataJson.proxy.x1;
     var proxy_x2 = dataJson.proxy.x2;
@@ -785,10 +775,6 @@ $(document).ready(function () {
     var proxy_fiy = dataJson.proxy.fi_y;
     var proxy_int = dataJson.proxy.int;
 
-    var proxy_data = option6.series.data;
-    proxy_data.shift();
-    proxy_data.push(proxy_int);
-
     document.getElementById('proxy-x').innerHTML = proxy_x;
     document.getElementById('proxy-x1').innerHTML = proxy_x1;
     document.getElementById('proxy-x2').innerHTML = proxy_x2;
@@ -798,6 +784,13 @@ $(document).ready(function () {
     document.getElementById('proxy-fix').innerHTML = proxy_fix;
     document.getElementById('proxy-fiy').innerHTML = proxy_fiy;
     document.getElementById('proxy-int').innerHTML = proxy_int;
+
+    // ############### Charts ###############
+    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    var proxy_data = option6.series.data;
+    proxy_data.shift();
+    proxy_data.push(proxy_int);
+
     option6.xAxis.data.shift();
     option6.xAxis.data.push(axisData);
 
@@ -805,7 +798,7 @@ $(document).ready(function () {
     myChartProxy.resize();
   });
 
-  // Acc
+  // ############### Acc ###############
   // Three.js ray.intersects with offset canvas
   var container,
     camera,
@@ -854,13 +847,6 @@ $(document).ready(function () {
       acc_x_f = acc_x / 100;
       acc_z_f = acc_z / 100;
 
-      document.getElementById('acc_axis-x').innerHTML =
-        'Axis X:' + ' ' + acc_x_f.toFixed(2) + ' m/s&#178';
-      document.getElementById('acc_axis-y').innerHTML =
-        'Axis Y:' + ' ' + acc_y_f.toFixed(2) + ' m/s&#178';
-      document.getElementById('acc_axis-z').innerHTML =
-        'Axis Z:' + ' ' + acc_z_f.toFixed(2) + ' m/s&#178';
-
       acc_x_val = acc_x / 1000;
       acc_y_val = acc_y / 1000;
       acc_z_val = acc_z / 1000;
@@ -870,6 +856,14 @@ $(document).ready(function () {
       mesh.rotation.z = acc_z_val;
 
       renderer.render(scene, camera);
+
+      // ############### Table ###############
+      document.getElementById('acc_axis-x').innerHTML =
+        'Axis X:' + ' ' + acc_x_f.toFixed(2) + ' m/s&#178';
+      document.getElementById('acc_axis-y').innerHTML =
+        'Axis Y:' + ' ' + acc_y_f.toFixed(2) + ' m/s&#178';
+      document.getElementById('acc_axis-z').innerHTML =
+        'Axis Z:' + ' ' + acc_z_f.toFixed(2) + ' m/s&#178';
     });
   }
   render();
