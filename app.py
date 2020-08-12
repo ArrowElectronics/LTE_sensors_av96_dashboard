@@ -1,14 +1,20 @@
-from flask import Flask, render_template, request, jsonify
-from time import sleep
-import serial
 import os
 import threading
-from flask_socketio import SocketIO, emit
 import json
 import logging
+from time import sleep
 
+from flask import Flask, render_template, request, jsonify
 
-ser = serial.Serial('/dev/ttyRPMSG0', 115200)
+import serial
+from flask_socketio import SocketIO, emit
+
+DEVICE_PATH = '/dev/ttyRPMSG0'
+DEVICE_BAUD_RATE = 115200
+
+ECHO_DEVICE_DATA = "echo START > /dev/ttyRPMSG0"
+
+ser = serial.Serial(DEVICE_PATH, DEVICE_BAUD_RATE)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, logging=False, engineio_logger=False)
@@ -23,7 +29,7 @@ def message_recieved(data):
 
 def update_output(ser):
     while True:
-        os.system("echo START > /dev/ttyRPMSG0")
+        os.system(ECHO_DEVICE_DATA)
         sensor_data = ser.readline().decode().replace('\x00', '')
         my_json = json.loads(sensor_data)
         json_format = json.dumps(my_json, indent=4, sort_keys=True)

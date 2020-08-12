@@ -20,27 +20,20 @@
     <script type="text/javascript" src="/static/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/js/sensorData.js"></script>
     <script type="text/javascript" src="/static/js/three.min.js"></script>
+    <script type="text/javascript" src="/static/js/svgTemperature.js"></script>
   </head>
   <body>
     <!-- Big App Cointainer -->
-    <div id="banner" class="banner">
-      <div id="banner-text" class="content-margin-left">
+    <div class="banner">
+      <div class="banner-text content-margin-left">
         <h4 style="text-transform: uppercase;">
           Avenger96 & LTE Sensor Mezzanine
         </h4>
       </div>
-      <!-- <div id="banner-logo">
-        <img
-          id="logo"
-          width="165px"
-          height="65px"
-          src="/static/img/arrow_white.png"
-        />
-      </div> -->
     </div>
-    <div id="big-app-container">
+    <div class="big-app-container">
       <!-- App Container Under Banner -->
-      <div id="app-container">
+      <div class="app-container">
         <!-- Tabs -->
         <div class="col s12" id="tabs">
           <ul class="tabs" id="tabs-swipe-demo">
@@ -57,12 +50,12 @@
           </ul>
         </div>
         <!-- App Content Under Tabs -->
-        <div id="app-content">
+        <div class="app-content">
           <!-- Tab Sensors -->
           <div id="sensors" class="col s12">
             <div class="row firstRow">
               <!-- ToF -->
-              <div class="col s12 m12 l6 xl6 borderTest left">
+              <div class="col s12 m12 l6 xl6 borderStyle left">
                 <div class="metric-select-title">
                   <div class="section-banner">Time of Flight</div>
                 </div>
@@ -73,7 +66,7 @@
               </div>
               <div class="col s12 m12 l6 xl6 right">
                 <!-- Accelerometer -->
-                <div class="col s6 m6 l6 xl6 borderTest left">
+                <div class="col s6 m6 l6 xl6 borderStyle left">
                   <div id="acc-container">
                     <div class="metric-select-title">
                       <div class="section-banner">Accelerometer</div>
@@ -88,12 +81,12 @@
                       </thead>
                     </table>
                     <div style="height: 192px; width: 100%;">
-                      <div id="canvastest" style="margin: auto;"></div>
+                      <div id="canvas_acc" style="margin: auto;"></div>
                     </div>
                   </div>
                 </div>
                 <!-- Temperature -->
-                <div class="col s6 m6 l6 xl6 offset-s6 borderTest right">
+                <div class="col s6 m6 l6 xl6 offset-s6 borderStyle right">
                   <div class="metric-select-title">
                     <div class="section-banner">Temperature</div>
                   </div>
@@ -106,7 +99,7 @@
             </div>
             <div class="row">
               <!-- Gyr -->
-              <div class="col s12 m12 l6 xl6 borderTest lastDiv left">
+              <div class="col s12 m12 l6 xl6 borderStyle lastDiv left">
                 <div class="metric-select-title">
                   <div class="section-banner">Gyroscope</div>
                 </div>
@@ -116,7 +109,7 @@
                 ></div>
               </div>
               <!-- Temp Chart -->
-              <div class="col s12 m12 l6 xl6 borderTest lastDiv right">
+              <div class="col s12 m12 l6 xl6 borderStyle lastDiv right">
                 <div class="metric-select-title">
                   <div class="section-banner">Temperature Chart</div>
                 </div>
@@ -130,8 +123,8 @@
           <!-- Tab Magnetometer & Proximity -->
           <div id="proximity" class="col s12">
             <!-- Mag -->
-            <div class="row borderTest" style="border-top: 0;">
-              <div class="col s12 borderTest">
+            <div class="row borderStyle" style="border-top: 0;">
+              <div class="col s12 borderStyle">
                 <div class="metric-select-title">
                   <div class="section-banner">Magnetometer</div>
                 </div>
@@ -142,7 +135,7 @@
               </div>
             </div>
             <!-- Proxy -->
-            <div class="row borderTest" style="border-top: 0;">
+            <div class="row borderStyle" style="border-top: 0;">
               <div class="metric-select-title">
                 <div class="section-banner">Proximity</div>
               </div>

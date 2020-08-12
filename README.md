@@ -12,10 +12,9 @@ Run in Terminal/Command Prompt:
 apt-get update
 apt-get install python3-pip python3-flask
 apt-get instal git
-pip3 install Flask-SocketIO pyserial
+pip3 install -r requirements.txt
 git clone https://gitlab.com/arrowelectronics/96boards/LTE_sensors_av96_dasboard.git
 cd LTE_sensors_av96_dasboard
-git checkout develop
 ```
 
 ## How to use this app
@@ -57,3 +56,5 @@ if connect via same ethernet find the IP Address of the Avenger96 board and add 
 - materialize
 - socketio
 
+Use of CDN links or download the js files from CDN to run the packages locally.
+Currently the packages are local, find them in statiic/js directory.

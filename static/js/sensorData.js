@@ -1,34 +1,57 @@
 $(document).ready(function () {
-  var socket;
+  let socket;
   // The http vs. https is important. Use http for localhost!
   socket = io.connect({ forceNew: true });
 
+  // timestamp chart function
+  function timeStamp() {
+    let timeNow = new Date();
+    let arrayLength = [];
+    let chartLength = 100;
+    while (chartLength--) {
+      arrayLength.unshift(timeNow.toLocaleTimeString().replace(/^\D*/, ''));
+      timeNow = new Date(timeNow);
+    }
+    return arrayLength;
+  }
+
+  // init drawing line chart function
+  function initChartValue() {
+    let arrayLength = [];
+    let chartLength = 0;
+    while (chartLength < 100) {
+      arrayLength.push(0);
+      chartLength++;
+    }
+    return arrayLength;
+  }
+
   // ############### Resize Charts ###############
   $(window).on('resize', function () {
-    if (myChartTemperature != null && myChartTemperature != undefined) {
-      myChartTemperature.resize();
+    if (chartTemperature != null && chartTemperature != undefined) {
+      chartTemperature.resize();
     }
-    if (myChartTempChart != null && myChartTempChart != undefined) {
-      myChartTempChart.resize();
+    if (chartTempGraph != null && chartTempGraph != undefined) {
+      chartTempGraph.resize();
     }
-    if (myChartGyr != null && myChartGyr != undefined) {
-      myChartGyr.resize();
+    if (chartGyroscope != null && chartGyroscope != undefined) {
+      chartGyroscope.resize();
     }
-    if (myChartTof != null && myChartTof != undefined) {
-      myChartTof.resize();
+    if (chartTof != null && chartTof != undefined) {
+      chartTof.resize();
     }
-    if (myChartMag != null && myChartMag != undefined) {
-      myChartMag.resize();
+    if (chartMagnetometer != null && chartMagnetometer != undefined) {
+      chartMagnetometer.resize();
     }
-    if (myChartProxy != null && myChartProxy != undefined) {
-      myChartProxy.resize();
+    if (chartProximity != null && chartProximity != undefined) {
+      chartProximity.resize();
     }
   });
 
-  // ############### ToF ###############
-  var myChartTof = echarts.init(document.getElementById('tof-container'));
+  // ############### Time of Flight ###############
+  let chartTof = echarts.init(document.getElementById('tof-container'));
 
-  option5 = {
+  tofOption = {
     grid: {
       containLabel: true,
     },
@@ -57,16 +80,7 @@ $(document).ready(function () {
           color: 'darkgrey',
         },
       },
-      data: (function () {
-        var now = new Date();
-        var res = [];
-        var len = 100;
-        while (len--) {
-          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-          now = new Date(now - 2000);
-        }
-        return res;
-      })(),
+      data: timeStamp(),
     },
     yAxis: {
       type: 'value',
@@ -97,41 +111,32 @@ $(document).ready(function () {
         opacity: 0,
       },
       showSymbol: false,
-      data: (function () {
-        var res = [];
-        var len = 0;
-        while (len < 100) {
-          res.push(0);
-          len++;
-        }
-        return res;
-      })(),
+      data: initChartValue(),
     },
   };
 
   socket.on('message_from_server', function (data) {
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
 
-    var text = data;
-    var dataJson = JSON.parse(text);
-    var tof_val = dataJson.tof;
-    var tof_data = option5.series.data;
+    let dataJson = JSON.parse(data);
+    let tof_val = dataJson.tof;
+    let tof_data = tofOption.series.data;
     tof_data.shift();
     tof_data.push(tof_val);
 
-    option5.xAxis.data.shift();
-    option5.xAxis.data.push(axisData);
+    tofOption.xAxis.data.shift();
+    tofOption.xAxis.data.push(axisData);
 
-    myChartTof.setOption(option5);
-    myChartTof.resize();
+    chartTof.setOption(tofOption);
+    chartTof.resize();
   });
 
   // ############### Temperature Chart ###############
-  var myChartTempChart = echarts.init(
+  let chartTempGraph = echarts.init(
     document.getElementById('temp-chart-container')
   );
 
-  option8 = {
+  tempChartOption = {
     grid: {
       containLabel: true,
     },
@@ -160,16 +165,7 @@ $(document).ready(function () {
           color: 'darkgrey',
         },
       },
-      data: (function () {
-        var now = new Date();
-        var res = [];
-        var len = 100;
-        while (len--) {
-          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-          now = new Date(now - 2000);
-        }
-        return res;
-      })(),
+      data: timeStamp(),
     },
     yAxis: {
       type: 'value',
@@ -200,49 +196,38 @@ $(document).ready(function () {
         opacity: 0,
       },
       showSymbol: false,
-      data: (function () {
-        var res = [];
-        var len = 0;
-        while (len < 100) {
-          res.push(0);
-          len++;
-        }
-        return res;
-      })(),
+      data: initChartValue(),
     },
   };
 
   socket.on('message_from_server', function (data) {
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
 
-    var text = data;
-    var dataJson = JSON.parse(text);
-    var tempchart_val = dataJson.temp;
-    var tempchart_data = option8.series.data;
+    let dataJson = JSON.parse(data);
+    let tempchart_val = dataJson.temp;
+    let tempchart_data = tempChartOption.series.data;
     tempchart_data.shift();
     tempchart_data.push(tempchart_val);
 
-    option8.xAxis.data.shift();
-    option8.xAxis.data.push(axisData);
+    tempChartOption.xAxis.data.shift();
+    tempChartOption.xAxis.data.push(axisData);
 
-    myChartTempChart.setOption(option8);
-    myChartTempChart.resize();
+    chartTempGraph.setOption(tempChartOption);
+    chartTempGraph.resize();
   });
 
-  // ############### Temperature ###############
-  var myChartTemperature = echarts.init(
+  // ############### Temperature Pictural ###############
+  let chartTemperature = echarts.init(
     document.getElementById('temperature-container')
   );
 
   // specify chart configuration item and data
-  var symbols = [
-    'path://M144.998,0.004               c-4.318,0-8.636,1.117-12.5,3.348c-7.728,4.462-12.5,12.727-12.5,21.65l0.164,182.652c-15.904,10.584-23.605,30.141-18.674,48.826                c5.195,19.686,23.025,33.461,43.385,33.518c20.359,0.056,38.266-13.619,43.57-33.275c5.038-18.669-2.549-38.364-18.418-49.051      l-0.025-182.676c-0.001-8.923-4.773-17.187-12.5-21.648C153.637,1.117,149.319,0,145.001,0L144.998,0.004z M144.998,10.002                c2.588,0,5.176,0.672,7.5,2.014c4.648,2.684,7.5,7.623,7.5,12.99v5h-5c-6.762-0.096-6.762,10.096,0,10H160v10h-5.004             c-6.762-0.096-6.762,10.096,0,10h5.006v10h-5.006c-6.762-0.096-6.762,10.096,0,10h5.008l0.019,130.264                c0,1.785,0.952,3.435,2.498,4.328c13.729,7.941,20.402,24.203,16.266,39.527c-4.137,15.33-18.01,25.925-33.889,25.881     c-15.878-0.044-29.692-10.718-33.744-26.07c-4.052-15.353,2.697-31.451,16.486-39.324c1.56-0.891,2.523-2.549,2.521-4.346    l-0.166-185.264c0-5.365,2.853-10.303,7.5-12.986c2.324-1.342,4.912-2.014,7.5-2.014H144.998z M144.922,91.498             c-2.759,0.042-4.963,2.311-4.924,5.07v129.098c-8.821,2.278-14.989,10.229-15,19.34c0,11.046,8.954,20,20,20l0,0      c11.046,0,20-8.954,20-20l0,0c-0.007-9.114-6.175-17.071-15-19.35V96.568c0.039-2.761-2.168-5.031-4.93-5.07              C145.02,91.497,144.971,91.497,144.922,91.498z',
-  ];
+  let symbols = temperatureSVG;
 
-  var bodyMax = 155;
-  var bodyMin = -60;
+  let bodyMax = 155;
+  let bodyMin = -60;
 
-  option2 = {
+  tempOption = {
     title: {
       text: 0 + '°C',
       textAlign: 'top',
@@ -310,14 +295,13 @@ $(document).ready(function () {
       },
     ],
   };
-  myChartTemperature.setOption(option2);
+  chartTemperature.setOption(tempOption);
 
   socket.on('message_from_server', function (data) {
-    var text = data;
-    var dataJson = JSON.parse(text);
-    temp_val = dataJson.temp;
+    let dataJson = JSON.parse(data);
+    let temp_val = dataJson.temp;
 
-    myChartTemperature.setOption({
+    chartTemperature.setOption({
       title: { text: temp_val + '°C' },
       series: [
         {
@@ -354,13 +338,13 @@ $(document).ready(function () {
         },
       ],
     });
-    myChartTemperature.resize();
+    chartTemperature.resize();
   });
 
-  // ############### Gyr ###############
-  var myChartGyr = echarts.init(document.getElementById('gyr-container'));
+  // ############### Gyroscope ###############
+  let chartGyroscope = echarts.init(document.getElementById('gyr-container'));
 
-  option1 = {
+  gyrOption = {
     grid: {
       containLabel: true,
     },
@@ -388,16 +372,7 @@ $(document).ready(function () {
           color: 'darkgrey',
         },
       },
-      data: (function () {
-        var now = new Date();
-        var res = [];
-        var len = 100;
-        while (len--) {
-          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-          now = new Date(now - 2000);
-        }
-        return res;
-      })(),
+      data: timeStamp(),
     },
     yAxis: {
       name: 'RPS',
@@ -432,15 +407,7 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
       {
         name: 'Axis Y',
@@ -453,15 +420,7 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
       {
         name: 'Axis Z',
@@ -474,55 +433,46 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
     ],
   };
 
   socket.on('message_from_server', function (data) {
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let scaleGyr = 900;
 
-    var text = data;
-    var dataJson = JSON.parse(text);
-    gyr_x_val = dataJson.gyr.x;
-    gyr_y_val = dataJson.gyr.y;
-    gyr_z_val = dataJson.gyr.z;
+    let dataJson = JSON.parse(data);
+    let gyr_data = [dataJson.gyr.x, dataJson.gyr.y, dataJson.gyr.z];
 
-    gyr_x_val_f = gyr_x_val / 900;
-    gyr_y_val_f = gyr_y_val / 900;
-    gyr_z_val_f = gyr_z_val / 900;
+    let gyr_option = [
+      gyrOption.series[0].data,
+      gyrOption.series[1].data,
+      gyrOption.series[2].data,
+    ];
 
-    var gyr_x = option1.series[0].data;
-    gyr_x.shift();
-    gyr_x.push(gyr_x_val_f.toFixed(2));
+    gyr_option[0].shift();
+    gyr_option[0].push((gyr_data[0] / scaleGyr).toFixed(2));
 
-    var gyr_y = option1.series[1].data;
-    gyr_y.shift();
-    gyr_y.push(gyr_y_val_f.toFixed(2));
+    gyr_option[1].shift();
+    gyr_option[1].push((gyr_data[1] / scaleGyr).toFixed(2));
 
-    var gyr_z = option1.series[2].data;
-    gyr_z.shift();
-    gyr_z.push(gyr_z_val_f.toFixed(2));
+    gyr_option[2].shift();
+    gyr_option[2].push((gyr_data[2] / scaleGyr).toFixed(2));
 
-    option1.xAxis.data.shift();
-    option1.xAxis.data.push(axisData);
+    gyrOption.xAxis.data.shift();
+    gyrOption.xAxis.data.push(axisData);
 
-    myChartGyr.setOption(option1);
-    myChartGyr.resize();
+    chartGyroscope.setOption(gyrOption);
+    chartGyroscope.resize();
   });
 
-  // ############### Mag ###############
-  var myChartMag = echarts.init(document.getElementById('mag-container'));
+  // ############### Magnetometer ###############
+  let chartMagnetometer = echarts.init(
+    document.getElementById('mag-container')
+  );
 
-  option4 = {
+  magOption = {
     grid: {
       containLabel: true,
     },
@@ -550,16 +500,7 @@ $(document).ready(function () {
           color: 'darkgrey',
         },
       },
-      data: (function () {
-        var now = new Date();
-        var res = [];
-        var len = 100;
-        while (len--) {
-          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-          now = new Date(now - 2000);
-        }
-        return res;
-      })(),
+      data: timeStamp(),
     },
     yAxis: {
       type: 'value',
@@ -592,15 +533,7 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
       {
         name: 'Axis Y',
@@ -613,15 +546,7 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
       {
         name: 'Axis Z',
@@ -634,55 +559,45 @@ $(document).ready(function () {
           opacity: 0,
         },
         showSymbol: false,
-        data: (function () {
-          var res = [];
-          var len = 0;
-          while (len < 100) {
-            res.push(0);
-            len++;
-          }
-          return res;
-        })(),
+        data: initChartValue(),
       },
     ],
   };
 
   socket.on('message_from_server', function (data) {
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let scaleMag = 16;
 
-    var text = data;
-    var dataJson = JSON.parse(text);
-    mag_x_val = dataJson.mag.x;
-    mag_y_val = dataJson.mag.y;
-    mag_z_val = dataJson.mag.z;
+    let dataJson = JSON.parse(data);
+    let mag_data = [dataJson.mag.x, dataJson.mag.y, dataJson.mag.z];
 
-    mag_x_val_f = mag_x_val / 16;
-    mag_y_val_f = mag_y_val / 16;
-    mag_z_val_f = mag_z_val / 16;
+    let mag_option = [
+      magOption.series[0].data,
+      magOption.series[1].data,
+      magOption.series[2].data,
+    ];
+    mag_option[0].shift();
+    mag_option[0].push((mag_data[0] / scaleMag).toFixed(2));
 
-    var data1 = option4.series[0].data;
-    data1.shift();
-    data1.push(mag_x_val_f.toFixed(2));
+    mag_option[1].shift();
+    mag_option[1].push((mag_data[1] / scaleMag).toFixed(2));
 
-    var data1 = option4.series[1].data;
-    data1.shift();
-    data1.push(mag_y_val_f.toFixed(2));
+    mag_option[2].shift();
+    mag_option[2].push((mag_data[2] / scaleMag).toFixed(2));
 
-    var data1 = option4.series[2].data;
-    data1.shift();
-    data1.push(mag_z_val_f.toFixed(2));
+    magOption.xAxis.data.shift();
+    magOption.xAxis.data.push(axisData);
 
-    option4.xAxis.data.shift();
-    option4.xAxis.data.push(axisData);
-
-    myChartMag.setOption(option4);
-    myChartMag.resize();
+    chartMagnetometer.setOption(magOption);
+    chartMagnetometer.resize();
   });
 
-  // ############### Proxy ###############
-  var myChartProxy = echarts.init(document.getElementById('proxy-container'));
+  // ############### Proximty ###############
+  let chartProximity = echarts.init(
+    document.getElementById('proxy-container')
+  );
 
-  option6 = {
+  proxyOption = {
     grid: {
       containLabel: true,
     },
@@ -711,16 +626,7 @@ $(document).ready(function () {
           color: 'darkgrey',
         },
       },
-      data: (function () {
-        var now = new Date();
-        var res = [];
-        var len = 100;
-        while (len--) {
-          res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-          now = new Date(now - 2000);
-        }
-        return res;
-      })(),
+      data: timeStamp(),
     },
     yAxis: {
       type: 'value',
@@ -749,58 +655,51 @@ $(document).ready(function () {
         opacity: 0,
       },
       showSymbol: false,
-      data: (function () {
-        var res = [];
-        var len = 0;
-        while (len < 100) {
-          res.push(0);
-          len++;
-        }
-        return res;
-      })(),
+      data: initChartValue(),
     },
   };
 
   socket.on('message_from_server', function (data) {
     // ############### Table ###############
-    var text = data;
-    var dataJson = JSON.parse(text);
-    var proxy_x = dataJson.proxy.x;
-    var proxy_x1 = dataJson.proxy.x1;
-    var proxy_x2 = dataJson.proxy.x2;
-    var proxy_y = dataJson.proxy.y;
-    var proxy_y1 = dataJson.proxy.y1;
-    var proxy_y2 = dataJson.proxy.y2;
-    var proxy_fix = dataJson.proxy.fi_x;
-    var proxy_fiy = dataJson.proxy.fi_y;
-    var proxy_int = dataJson.proxy.int;
+    let dataJson = JSON.parse(data);
+    let proxy_data_arr = [
+      dataJson.proxy.x,
+      dataJson.proxy.x1,
+      dataJson.proxy.x2,
+      dataJson.proxy.y,
+      dataJson.proxy.y1,
+      dataJson.proxy.y2,
+      dataJson.proxy.fi_x,
+      dataJson.proxy.fi_y,
+      dataJson.proxy.int,
+    ];
 
-    document.getElementById('proxy-x').innerHTML = proxy_x;
-    document.getElementById('proxy-x1').innerHTML = proxy_x1;
-    document.getElementById('proxy-x2').innerHTML = proxy_x2;
-    document.getElementById('proxy-y').innerHTML = proxy_y;
-    document.getElementById('proxy-y1').innerHTML = proxy_y1;
-    document.getElementById('proxy-y2').innerHTML = proxy_y2;
-    document.getElementById('proxy-fix').innerHTML = proxy_fix;
-    document.getElementById('proxy-fiy').innerHTML = proxy_fiy;
-    document.getElementById('proxy-int').innerHTML = proxy_int;
+    document.getElementById('proxy-x').innerHTML = proxy_data_arr[0];
+    document.getElementById('proxy-x1').innerHTML = proxy_data_arr[1];
+    document.getElementById('proxy-x2').innerHTML = proxy_data_arr[2];
+    document.getElementById('proxy-y').innerHTML = proxy_data_arr[3];
+    document.getElementById('proxy-y1').innerHTML = proxy_data_arr[4];
+    document.getElementById('proxy-y2').innerHTML = proxy_data_arr[5];
+    document.getElementById('proxy-fix').innerHTML = proxy_data_arr[6];
+    document.getElementById('proxy-fiy').innerHTML = proxy_data_arr[7];
+    document.getElementById('proxy-int').innerHTML = proxy_data_arr[8];
 
     // ############### Charts ###############
-    var axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
-    var proxy_data = option6.series.data;
+    let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+    let proxy_data = proxyOption.series.data;
     proxy_data.shift();
-    proxy_data.push(proxy_int);
+    proxy_data.push(proxy_data_arr[8]);
 
-    option6.xAxis.data.shift();
-    option6.xAxis.data.push(axisData);
+    proxyOption.xAxis.data.shift();
+    proxyOption.xAxis.data.push(axisData);
 
-    myChartProxy.setOption(option6);
-    myChartProxy.resize();
+    chartProximity.setOption(proxyOption);
+    chartProximity.resize();
   });
 
-  // ############### Acc ###############
+  // ############### Accelerometer ###############
   // Three.js ray.intersects with offset canvas
-  var container,
+  let container,
     camera,
     scene,
     renderer,
@@ -809,7 +708,7 @@ $(document).ready(function () {
     CANVAS_WIDTH = 170,
     CANVAS_HEIGHT = 170;
 
-  container = document.getElementById('canvastest');
+  container = document.getElementById('canvas_acc');
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x161a28, 1);
@@ -837,33 +736,34 @@ $(document).ready(function () {
 
   function render() {
     socket.on('message_from_server', function (data) {
-      var text = data;
-      var dataJson = JSON.parse(text);
-      acc_y = dataJson.acc.y;
-      acc_x = dataJson.acc.x;
-      acc_z = dataJson.acc.z;
+      let squareSecond = ' m/s&#178';
+      let scaleAcc = 1100;
+      let scaleAccResult = 100;
+      let dataJson = JSON.parse(data);
+      let acc_data = [dataJson.acc.x, dataJson.acc.y, dataJson.acc.z];
 
-      acc_y_f = acc_y / 100;
-      acc_x_f = acc_x / 100;
-      acc_z_f = acc_z / 100;
-
-      acc_x_val = acc_x / 1000;
-      acc_y_val = acc_y / 1000;
-      acc_z_val = acc_z / 1000;
-
-      mesh.rotation.y = acc_y_val;
-      mesh.rotation.x = acc_x_val;
-      mesh.rotation.z = acc_z_val;
+      mesh.rotation.x = acc_data[0] / scaleAcc;
+      mesh.rotation.y = acc_data[1] / scaleAcc;
+      mesh.rotation.z = acc_data[2] / scaleAcc;
 
       renderer.render(scene, camera);
 
       // ############### Table ###############
       document.getElementById('acc_axis-x').innerHTML =
-        'Axis X:' + ' ' + acc_x_f.toFixed(2) + ' m/s&#178';
+        'Axis X:' +
+        ' ' +
+        (acc_data[0] / scaleAccResult).toFixed(2) +
+        squareSecond;
       document.getElementById('acc_axis-y').innerHTML =
-        'Axis Y:' + ' ' + acc_y_f.toFixed(2) + ' m/s&#178';
+        'Axis Y:' +
+        ' ' +
+        (acc_data[1] / scaleAccResult).toFixed(2) +
+        squareSecond;
       document.getElementById('acc_axis-z').innerHTML =
-        'Axis Z:' + ' ' + acc_z_f.toFixed(2) + ' m/s&#178';
+        'Axis Z:' +
+        ' ' +
+        (acc_data[2] / scaleAccResult).toFixed(2) +
+        squareSecond;
     });
   }
   render();
