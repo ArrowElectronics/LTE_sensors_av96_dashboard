@@ -18,7 +18,7 @@ $(document).ready(function () {
       myChartTof.resize();
     }
     if (myChartMag != null && myChartMag != undefined) {
-      myChartMag.resize(width);
+      myChartMag.resize();
     }
     if (myChartProxy != null && myChartProxy != undefined) {
       myChartProxy.resize();
@@ -71,7 +71,7 @@ $(document).ready(function () {
     yAxis: {
       type: 'value',
       scale: true,
-      max: 8200,
+      max: 1200,
       min: -10,
       boundaryGap: [0.2, 0.2],
       axisLine: {
@@ -101,7 +101,7 @@ $(document).ready(function () {
         var res = [];
         var len = 0;
         while (len < 100) {
-          res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+          res.push(0);
           len++;
         }
         return res;
@@ -204,7 +204,7 @@ $(document).ready(function () {
         var res = [];
         var len = 0;
         while (len < 100) {
-          res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+          res.push(0);
           len++;
         }
         return res;
@@ -436,7 +436,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 2).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -457,7 +457,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 2).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -478,7 +478,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 2).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -596,7 +596,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -617,7 +617,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -638,7 +638,7 @@ $(document).ready(function () {
           var res = [];
           var len = 0;
           while (len < 100) {
-            res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+            res.push(0);
             len++;
           }
           return res;
@@ -753,7 +753,7 @@ $(document).ready(function () {
         var res = [];
         var len = 0;
         while (len < 100) {
-          res.push((Math.random() * (265000 - 125000) + 125000).toFixed(1));
+          res.push(0);
           len++;
         }
         return res;
@@ -806,8 +806,8 @@ $(document).ready(function () {
     renderer,
     mesh,
     objects = [],
-    CANVAS_WIDTH = 180,
-    CANVAS_HEIGHT = 180;
+    CANVAS_WIDTH = 170,
+    CANVAS_HEIGHT = 170;
 
   container = document.getElementById('canvastest');
 
