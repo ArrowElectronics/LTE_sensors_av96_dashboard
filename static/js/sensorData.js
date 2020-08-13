@@ -451,14 +451,11 @@ $(document).ready(function () {
       gyrOption.series[2].data,
     ];
 
-    gyr_option[0].shift();
-    gyr_option[0].push((gyr_data[0] / scaleGyr).toFixed(2));
-
-    gyr_option[1].shift();
-    gyr_option[1].push((gyr_data[1] / scaleGyr).toFixed(2));
-
-    gyr_option[2].shift();
-    gyr_option[2].push((gyr_data[2] / scaleGyr).toFixed(2));
+    let dimensions = 3;
+    for (i = 0; i < dimensions; i++) {
+      gyr_option[i].shift();
+      gyr_option[i].push((gyr_data[i] / scaleGyr).toFixed(2));
+    }
 
     gyrOption.xAxis.data.shift();
     gyrOption.xAxis.data.push(axisData);
@@ -576,14 +573,13 @@ $(document).ready(function () {
       magOption.series[1].data,
       magOption.series[2].data,
     ];
-    mag_option[0].shift();
-    mag_option[0].push((mag_data[0] / scaleMag).toFixed(2));
 
-    mag_option[1].shift();
-    mag_option[1].push((mag_data[1] / scaleMag).toFixed(2));
+    let dimensions = 3;
 
-    mag_option[2].shift();
-    mag_option[2].push((mag_data[2] / scaleMag).toFixed(2));
+    for (i = 0; i < dimensions; i++) {
+      mag_option[i].shift();
+      mag_option[i].push((mag_data[i] / scaleMag).toFixed(2));
+    }
 
     magOption.xAxis.data.shift();
     magOption.xAxis.data.push(axisData);
